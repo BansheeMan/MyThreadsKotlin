@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyThreadsKotlin</string>
+    <string name="threads">Threads</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_threads_fragments">Hello Threads Fragments</string>
+    <string name="calc">calc</string>
+    <string name="hello_klindyuk">Hello Klindyuk!</string>
+</resources>
