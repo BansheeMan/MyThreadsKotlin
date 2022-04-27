@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.mythreadskotlin.databinding.FragmentThreadBinding
 import java.lang.Thread.sleep
@@ -33,16 +34,48 @@ class ThreadFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val myThreads = MyThreads().apply { start() }
         with(binding) {
-            button.setOnClickListener {
+            val time = editText.text.toString().toLong()
+            var counter = 0
+            //ПАРАЛЛЕЛЬНОЕ ВЫПОЛНЕНИЕ
+            button1.setOnClickListener {
                 Thread {
-                    val time = editText.text.toString().toLong()
                     sleep(time * 1000L)
-                    requireActivity().runOnUiThread { textView.text = "$time ceк." }
+                    requireActivity().runOnUiThread {
+                        textView1.text = "$time ceк."
+                        createTextView("${Thread.currentThread().name} ${++counter}")
+                    }
                     //Handler(Looper.getMainLooper()).post { textView.text = "$time ceк." }
                 }.start()
             }
+
+            //ВЕЧНЫЙ ПОТОК!!! ПОСЛЕДОВАТЕЛЬНОЕ ВЫПОЛНЕНИЕ
+            button2.setOnClickListener {
+                myThreads.mHandler?.post {
+                    sleep(time*1000L)
+                    Handler(Looper.getMainLooper()).post {
+                        textView2.text = "$time сек."
+                        createTextView("${Thread.currentThread().name} ${++counter}")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun createTextView(name:String) {
+        binding.mainContainer.addView(TextView(requireContext()).apply {
+            text = name
+            textSize = 14f
+        })
+    }
+
+    class MyThreads: Thread() {
+        var mHandler: Handler? = null
+        override fun run() {
+            Looper.prepare()
+            mHandler = Handler(Looper.myLooper()!!)
+            Looper.loop()
         }
     }
 
