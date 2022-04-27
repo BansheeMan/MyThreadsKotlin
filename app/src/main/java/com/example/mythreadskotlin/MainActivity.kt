@@ -1,5 +1,6 @@
 package com.example.mythreadskotlin
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,12 +10,14 @@ import com.example.mythreadskotlin.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
             .also { setContentView(it.root) }
+
+        startService(Intent(this,MainService::class.java))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
