@@ -1,6 +1,7 @@
 package com.example.mythreadskotlin
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,8 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mythreadskotlin.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
 
+
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,9 +19,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
             .also { setContentView(it.root) }
 
-        startService(Intent(this,MainService::class.java))
-    }
+        startService(Intent(this,MainService::class.java).apply {
+            putExtra(KEY_BUNDLE_ACTIVITY_MESSAGE, "Дарова, Сервис!!!")
+        })
 
+        val receiver = MyBroadcastReceiver()
+        registerReceiver(receiver, IntentFilter(KEY_WAVE))
+        //LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(KEY_WAVE))
+
+
+        startService(Intent(this,MainService::class.java).apply {
+            putExtra(KEY_BUNDLE_ACTIVITY_MESSAGE, "Как жизнь, Сервис!!!")
+        })
+    }
+//--------------------------------------------------------------------------------------------------
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_activity, menu)
         return super.onCreateOptionsMenu(menu)

@@ -1,0 +1,5 @@
+package com.example.mythreadskotlin
+
+const val KEY_BUNDLE_ACTIVITY_MESSAGE = "KEY_BUNDLE_ACTIVITY_MESSAGE"
+const val KEY_BUNDLE_SERVICE_MESSAGE = "KEY_BUNDLE_SERVICE_MESSAGE"
+const val KEY_WAVE = "MY ACTION"
